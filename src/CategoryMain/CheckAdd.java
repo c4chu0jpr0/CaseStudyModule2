@@ -6,6 +6,7 @@ import com.sun.xml.internal.bind.v2.model.core.ID;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.Scanner;
 
@@ -129,7 +130,7 @@ public class CheckAdd {
                             arrIn.add(inpatient);
                             Collections.sort(arrIn,compare_ip);
                             readfile.WriteInpatient(arrIn);
-
+                            arrIn.clear();
                         } catch (NumberFormatException e) {
                             e.printStackTrace();
                         }
@@ -215,7 +216,7 @@ public class CheckAdd {
                             arrOut.add(outpatient);
                             Collections.sort(arrOut,compare_op);
                             readfile.WriteOutpatient(arrOut);
-
+                            arrOut.clear();
                         } catch (NumberFormatException e) {
                             e.printStackTrace();
                         }
@@ -291,7 +292,7 @@ public class CheckAdd {
                             arrTran.add(transferPatient);
                             Collections.sort(arrTran,compare_transP);
                             readfile.WriteTransferPatient(arrTran);
-
+                            arrTran.clear();
                         } catch (NumberFormatException e) {
                             e.printStackTrace();
                         }

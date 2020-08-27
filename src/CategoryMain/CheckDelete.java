@@ -27,42 +27,43 @@ public class CheckDelete {
                 String choice = scanner.nextLine();
                 switch (choice){
                     case "1":
-                        String nameDeleteIP;
-                        do {
-                            System.out.print("Nhập họ tên bệnh nhân muốn xóa: ");
+                        int idIP;
+                        do{
+                            System.out.print("Mã hồ sơ: ");
                             try {
-                                nameDeleteIP= scanner.nextLine();
-                                if (!nameDeleteIP.equals("")) break;
-                            }catch (Exception ignored) {}
+                                idIP =Integer.parseInt(scanner.nextLine());
+                                if(idIP>0) break;
+                            }catch (Exception ignored){}
                             System.out.println("nhập sai");
                         }while (true);
 
-                        ReadFind(nameDeleteIP,"Inpatient");
+                        ReadFind(idIP,"Inpatient");
                         break;
                     case "2":
-                        String nameDeleteOP;
-                        do {
-                            System.out.print("Nhập họ tên bệnh nhân muốn xóa: ");
+                        int idOP;
+                        do{
+                            System.out.print("Mã hồ sơ: ");
                             try {
-                                nameDeleteOP= scanner.nextLine();
-                                if (!nameDeleteOP.equals("")) break;
-                            }catch (Exception ignored) {}
+                                idOP =Integer.parseInt(scanner.nextLine());
+                                if(idOP>0) break;
+                            }catch (Exception ignored){}
                             System.out.println("nhập sai");
                         }while (true);
 
-                        ReadFind(nameDeleteOP,"Outpatient");
+                        ReadFind(idOP,"Outpatient");
                         break;
                     case "3":
-                        String nameDeleteTP;
-                        do {
-                            System.out.print("Nhập họ tên bệnh nhân muốn xóa: ");
+                        int idTP;
+                        do{
+                            System.out.print("Mã hồ sơ: ");
                             try {
-                                nameDeleteTP= scanner.nextLine();
-                                if (!nameDeleteTP.equals("")) break;
-                            }catch (Exception ignored) {}
+                                idTP =Integer.parseInt(scanner.nextLine());
+                                if(idTP>0) break;
+                            }catch (Exception ignored){}
                             System.out.println("nhập sai");
                         }while (true);
-                        ReadFind(nameDeleteTP,"TransferPatient");
+
+                        ReadFind(idTP,"TransferPatient");
                         break;
                     case "4":
                         check = false;
@@ -74,7 +75,7 @@ public class CheckDelete {
 
         }while (check);
     }
-    public static void ReadFind(String name,String file){
+    public static void ReadFind(int id,String file){
         try{
             FileInputStream fi = new FileInputStream("CaseStudyCG/src/FileSave/"+file+".txt");
             ObjectInputStream dis = new ObjectInputStream(fi);
@@ -83,32 +84,32 @@ public class CheckDelete {
             if(file.equals("Inpatient")){
                 while (fi.available() > 0) {
                     Inpatient ip = (Inpatient) dis.readObject();
-                    if (ip.getHoTen().equals(name)){
-                    }else {
+                    if (ip.getMaHS() != id){
                         arrIn.add(ip);
                     }
                 }
                 WriteInpatient(arrIn);
+                arrIn.clear();
             }else if (file.equals("Outpatient")){
                 while (fi.available() > 0) {
                     Outpatient op = (Outpatient) dis.readObject();
-                    if (op.getHoTen().equals(name)){
-                    }else {
+                    if (op.getMaHS() != id){
                         arrOut.add(op);
                     }
                 }
                 WriteOutpatient(arrOut);
+                arrOut.clear();
             }else if (file.equals("TransferPatient")){
                 while (fi.available() > 0) {
                     TransferPatient tp = (TransferPatient) dis.readObject();
-                    if (tp.getHoTen().equals(name)){
-                    }else {
+                    if (tp.getMaHS() != id){
                         arrTran.add(tp);
                     }
                 }
                 WriteTransferPatient(arrTran);
+                arrTran.clear();
             }
-            System.out.println("Xóa Bệnh nhân thành công");
+            System.out.println("Xóa Thông tin Bệnh nhân thành công");
             dis.close();
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -120,7 +121,6 @@ public class CheckDelete {
         String SOURCE = "CaseStudyCG/src/FileSave/Inpatient.txt";
         try{
             FileOutputStream fos = new FileOutputStream(SOURCE, false);
-
             ObjectOutputStream dos = new ObjectOutputStream(fos);
             for (Inpatient ip : arr) {
                 dos.writeObject(ip);

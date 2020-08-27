@@ -1,10 +1,14 @@
 package CategoryMain.ModifyPatient;
 
+import Objects.ID_Compare_IP;
+import Objects.ID_Compare_OP;
+import Objects.IP_Compare_TransP;
 import Objects.Inpatient;
 
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class ModifyInpatient {
@@ -12,6 +16,28 @@ public class ModifyInpatient {
     public static ModifyInpatient getInstance(){return instance;}
     ArrayList<Inpatient> arrIP= new ArrayList<>();
     public static final Scanner scanner= new Scanner(System.in);
+    public static ID_Compare_IP compare_ip = new ID_Compare_IP();
+
+    public void ReadFind(int id){
+        try{
+            FileInputStream fi = new FileInputStream("CaseStudyCG/src/FileSave/Inpatient.txt");
+            ObjectInputStream dis = new ObjectInputStream(fi);
+            while (fi.available() > 0) {
+                Inpatient ip = (Inpatient) dis.readObject();
+                if (ip.getMaHS() == id) {
+                    checkInpatient(ip);
+                }
+                arrIP.add(ip);
+            }
+            Collections.sort(arrIP,compare_ip);
+            WriteInpatient(arrIP);
+            arrIP.clear();
+            dis.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("không đọc được file");
+        }
+    }
 
     public static void checkInpatient(Inpatient ip){
         boolean check = true;
@@ -33,7 +59,7 @@ public class ModifyInpatient {
                     case "1":
                         int MHS;
                         do{
-                            System.out.print("Nhập mã muốn sửa: ");
+                            System.out.print("Nhập mã hồ sơ muốn sửa: ");
                             try {
                                 MHS = Integer.parseInt(scanner.nextLine());
                                 if(MHS>0) break;
@@ -42,6 +68,7 @@ public class ModifyInpatient {
                         }while (true);
 
                         ip.setMaHS(MHS);
+                        System.out.println("Sửa Mã hồ sơ thành công!");
                         break;
                     case "2":
                         String name;
@@ -55,6 +82,7 @@ public class ModifyInpatient {
                         }while (true);
 
                         ip.setHoTen(name);
+                        System.out.println("Sửa họ và tên thành công!");
                         break;
                     case "3":
                         String date;
@@ -70,6 +98,7 @@ public class ModifyInpatient {
                         }while (true);
 
                         ip.setNgaySinh(date);
+                        System.out.println("Sửa ngày tháng năm sinh thành công!");
                         break;
                     case "4":
                         String inputHospital;
@@ -85,6 +114,7 @@ public class ModifyInpatient {
                         }while (true);
 
                         ip.setNgayNhapVien(inputHospital);
+                        System.out.println("Sửa ngày tháng nhập viện thành công!");
                         break;
                     case "5":
                         String outHospital;
@@ -100,6 +130,7 @@ public class ModifyInpatient {
                         }while (true);
 
                         ip.setNgayRaVien(outHospital);
+                        System.out.println("Sửa ngày ra viện thành công");
                         break;
                     case "6":
                         String chuanDoanBenh;
@@ -113,6 +144,7 @@ public class ModifyInpatient {
                         }while (true);
 
                         ip.setChuanDoanBenh(chuanDoanBenh);
+                        System.out.println("SỬa bệnh án thành công");
                         break;
                     case "7":
                         String TenKhoa;
@@ -126,6 +158,7 @@ public class ModifyInpatient {
                         }while (true);
 
                         ip.setTenKhoa(TenKhoa);
+                        System.out.println("Sửa tên khoa thành công!");
                         break;
                     case "8":
                         int soGiuong;
@@ -139,6 +172,7 @@ public class ModifyInpatient {
                         }while (true);
 
                         ip.setSoGiuong(soGiuong);
+                        System.out.println("Sửa số giường thành công");
                         break;
                     case "9":
                         check= false;
@@ -151,25 +185,6 @@ public class ModifyInpatient {
         }while (check);
     }
 
-
-    public void ReadFind(int id){
-        try{
-            FileInputStream fi = new FileInputStream("CaseStudyCG/src/FileSave/Inpatient.txt");
-            ObjectInputStream dis = new ObjectInputStream(fi);
-            while (fi.available() > 0) {
-                Inpatient ip = (Inpatient) dis.readObject();
-                if (ip.getMaHS() == id) {
-                    checkInpatient(ip);
-                }
-                arrIP.add(ip);
-            }
-            WriteInpatient(arrIP);
-            dis.close();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            System.out.println("không đọc được file");
-        }
-    }
 
     public static void WriteInpatient(ArrayList<Inpatient> arr){
         String SOURCE = "CaseStudyCG/src/FileSave/Inpatient.txt";

@@ -1,9 +1,11 @@
 package CategoryMain.ModifyPatient;
+import Objects.IP_Compare_TransP;
 import Objects.TransferPatient;
 
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class ModifyTP {
@@ -11,6 +13,28 @@ public class ModifyTP {
     public static ModifyTP getInstance(){return instance;}
     ArrayList<TransferPatient> arrTP = new ArrayList<>();
     public static final Scanner scanner= new Scanner(System.in);
+    public static IP_Compare_TransP compare_transP= new IP_Compare_TransP();
+
+    public void ReadFind(int id){
+        try{
+            FileInputStream fi = new FileInputStream("CaseStudyCG/src/FileSave/TransferPatient.txt");
+            ObjectInputStream dis = new ObjectInputStream(fi);
+            while (fi.available() > 0) {
+                TransferPatient tp = (TransferPatient) dis.readObject();
+                if (tp.getMaHS() == id) {
+                    checkInpatient(tp);
+                }
+                arrTP.add(tp);
+            }
+            Collections.sort(arrTP,compare_transP);
+            WriteTransferPatient(arrTP);
+            arrTP.clear();
+            dis.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("không đọc được file");
+        }
+    }
 
     public static void checkInpatient(TransferPatient tp){
         boolean check = true;
@@ -39,6 +63,7 @@ public class ModifyTP {
                         } while (true);
 
                         tp.setMaHS(MHS);
+                        System.out.println("Sửa Mã hồ sơ thành công!");
                         break;
                     case "2":
                         String nameTrans;
@@ -52,6 +77,7 @@ public class ModifyTP {
                         } while (true);
 
                         tp.setHoTen(nameTrans);
+                        System.out.println("Sửa họ và tên thành công!");
                         break;
                     case "3":
                         String birthdayTrans;
@@ -67,6 +93,7 @@ public class ModifyTP {
                         } while (true);
 
                         tp.setNgaySinh(birthdayTrans);
+                        System.out.println("Sửa ngày tháng năm sinh thành công!");
                         break;
                     case "4":
                         String chuanDoanTrans;
@@ -80,6 +107,7 @@ public class ModifyTP {
                         }while (true);
 
                         tp.setChuanDoanBenh(chuanDoanTrans);
+                        System.out.println("Sửa bệnh án thành công");
                         break;
                     case "5":
                         String ngayTrans;
@@ -95,6 +123,7 @@ public class ModifyTP {
                         }while (true);
 
                         tp.setNgayChuyen(ngayTrans);
+                        System.out.println("SỬa ngày chuyển tuyến thành công");
                         break;
                     case "6":
                         String noiTrans;
@@ -108,6 +137,7 @@ public class ModifyTP {
                         }while (true);
 
                         tp.setNoiChuyen(noiTrans);
+                        System.out.println("Sửa nơi chuyển bệnh viện của bệnh nhân thành công");
                         break;
                     case "7":
                         check= false;
@@ -119,24 +149,6 @@ public class ModifyTP {
         }while (check);
     }
 
-    public void ReadFind(int id){
-        try{
-            FileInputStream fi = new FileInputStream("CaseStudyCG/src/FileSave/TransferPatient.txt");
-            ObjectInputStream dis = new ObjectInputStream(fi);
-            while (fi.available() > 0) {
-                TransferPatient tp = (TransferPatient) dis.readObject();
-                if (tp.getMaHS() == id) {
-                    checkInpatient(tp);
-                }
-                arrTP.add(tp);
-            }
-            WriteTransferPatient(arrTP);
-            dis.close();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            System.out.println("không đọc được file");
-        }
-    }
 
     public static void WriteTransferPatient(ArrayList<TransferPatient> arr){
         String SOURCE = "CaseStudyCG/src/FileSave/Transferpatient.txt";

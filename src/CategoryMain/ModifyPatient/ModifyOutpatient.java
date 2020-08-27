@@ -1,11 +1,14 @@
 package CategoryMain.ModifyPatient;
 
+import Objects.ID_Compare_OP;
+import Objects.IP_Compare_TransP;
 import Objects.Inpatient;
 import Objects.Outpatient;
 
 import java.io.*;
 import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Scanner;
 
 public class ModifyOutpatient {
@@ -13,6 +16,28 @@ public class ModifyOutpatient {
     public static ModifyOutpatient getInstance(){return instance;}
     public static final Scanner scanner= new Scanner(System.in);
     ArrayList<Outpatient> arrOP= new ArrayList<>();
+    public static ID_Compare_OP compare_op = new ID_Compare_OP();
+
+    public void ReadFind(int id){
+        try{
+            FileInputStream fi = new FileInputStream("CaseStudyCG/src/FileSave/Outpatient.txt");
+            ObjectInputStream dis = new ObjectInputStream(fi);
+            while (fi.available() > 0) {
+                Outpatient op = (Outpatient) dis.readObject();
+                if (op.getMaHS() == id) {
+                    checkInpatient(op);
+                }
+                arrOP.add(op);
+            }
+            Collections.sort(arrOP,compare_op);
+            WriteOutpatient(arrOP);
+            arrOP.clear();
+            dis.close();
+        } catch (IOException | ClassNotFoundException e) {
+            e.printStackTrace();
+            System.out.println("không đọc được file");
+        }
+    }
 
     public static void checkInpatient(Outpatient op){
         boolean check = true;
@@ -42,6 +67,7 @@ public class ModifyOutpatient {
                         } while (true);
 
                         op.setMaHS(MHS);
+                        System.out.println("Sửa Mã hồ sơ thành công!");
                         break;
                     case "2":
                         String nameOut;
@@ -55,6 +81,7 @@ public class ModifyOutpatient {
                         } while (true);
 
                         op.setHoTen(nameOut);
+                        System.out.println("Sửa họ và tên thành công!");
                         break;
                     case "3":
                         String birthdayOut;
@@ -70,6 +97,7 @@ public class ModifyOutpatient {
                         } while (true);
 
                         op.setNgaySinh(birthdayOut);
+                        System.out.println("Sửa ngày tháng năm sinh thành công!");
                         break;
                     case "4":
                         String ngayKhamOut;
@@ -85,6 +113,7 @@ public class ModifyOutpatient {
                         } while (true);
 
                         op.setNgayKham(ngayKhamOut);
+                        System.out.println("Sửa ngày tháng thành công");
                         break;
                     case "5":
                         String chuanDoanBenhOut;
@@ -98,6 +127,7 @@ public class ModifyOutpatient {
                         }while (true);
 
                         op.setChuanDoanBenh(chuanDoanBenhOut);
+                        System.out.println("Sửa bệnh án thành công");
                         break;
                     case "6":
                         String Sobaohiem;
@@ -111,6 +141,7 @@ public class ModifyOutpatient {
                         }while (true);
 
                         op.setSoBaoHiem(Sobaohiem);
+                        System.out.println("Sửa sổ bảo hiểm thành công");
                         break;
                     case "7":
                         int idthuoc;
@@ -121,6 +152,7 @@ public class ModifyOutpatient {
                                 if (idthuoc>0) break;
                             }catch (Exception ignored){}
                             System.out.println("nhập sai");
+                            System.out.println("Sửa mã toa thuốc thành công");
                         }while (true);
 
                         op.setMaToaThuoc(idthuoc);
@@ -135,24 +167,6 @@ public class ModifyOutpatient {
         }while (check);
     }
 
-    public void ReadFind(int id){
-        try{
-            FileInputStream fi = new FileInputStream("CaseStudyCG/src/FileSave/Outpatient.txt");
-            ObjectInputStream dis = new ObjectInputStream(fi);
-            while (fi.available() > 0) {
-                Outpatient op = (Outpatient) dis.readObject();
-                if (op.getMaHS() == id) {
-                    checkInpatient(op);
-                }
-                arrOP.add(op);
-            }
-            WriteOutpatient(arrOP);
-            dis.close();
-        } catch (IOException | ClassNotFoundException e) {
-            e.printStackTrace();
-            System.out.println("không đọc được file");
-        }
-    }
 
     public static void WriteOutpatient(ArrayList<Outpatient> arr){
         String SOURCE = "CaseStudyCG/src/FileSave/Outpatient.txt";
