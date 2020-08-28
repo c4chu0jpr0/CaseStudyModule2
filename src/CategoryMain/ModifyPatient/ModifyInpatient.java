@@ -1,5 +1,6 @@
 package CategoryMain.ModifyPatient;
 
+import IOFile.IOFileID;
 import Objects.ID_Compare_IP;
 import Objects.ID_Compare_OP;
 import Objects.IP_Compare_TransP;
@@ -17,6 +18,7 @@ public class ModifyInpatient {
     ArrayList<Inpatient> arrIP= new ArrayList<>();
     public static final Scanner scanner= new Scanner(System.in);
     public static ID_Compare_IP compare_ip = new ID_Compare_IP();
+    public static IOFileID checkID = IOFileID.getInstance();
 
     public void ReadFind(int id){
         try{
@@ -62,9 +64,12 @@ public class ModifyInpatient {
                             System.out.print("Nhập mã hồ sơ muốn sửa: ");
                             try {
                                 MHS = Integer.parseInt(scanner.nextLine());
-                                if(MHS>0) break;
+                                if(!checkID.ReadIn(MHS)){
+                                    System.out.println("Đã tồn tại Mã hồ sơ này!");
+                                }
+                                if(MHS>0 && checkID.ReadIn(MHS)) break;
                             }catch (Exception ignored){}
-                            System.out.println("nhập sai");
+                            System.out.println("nhập lại");
                         }while (true);
 
                         ip.setMaHS(MHS);
@@ -73,16 +78,17 @@ public class ModifyInpatient {
                     case "2":
                         String name;
                         do {
-                            System.out.print("Họ Tên: ");
+                            System.out.print("Họ Tên (nhập exit để thoát): ");
                             try {
                                 name = scanner.nextLine();
+                                if(name.equals("exit")) break;
                                 if (!name.equals("")) break;
                             }catch (Exception ignored){}
                             System.out.println("nhập sai");
                         }while (true);
 
-                        ip.setHoTen(name);
-                        System.out.println("Sửa họ và tên thành công!");
+                        if (!name.equals("exit")){ ip.setHoTen(name);
+                        System.out.println("Sửa họ và tên thành công!");}
                         break;
                     case "3":
                         String date;

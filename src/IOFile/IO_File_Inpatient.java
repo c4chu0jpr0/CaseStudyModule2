@@ -121,6 +121,7 @@ public class IO_File_Inpatient {
             System.out.println("không đọc được file");
         }
     }
+
     public void ReadTrans(ArrayList<TransferPatient> arrTP){
         try{
             FileInputStream fi = new FileInputStream("CaseStudyCG/src/FileSave/TransferPatient.txt");

@@ -1,4 +1,5 @@
 package CategoryMain.ModifyPatient;
+import IOFile.IOFileID;
 import Objects.IP_Compare_TransP;
 import Objects.TransferPatient;
 
@@ -14,6 +15,7 @@ public class ModifyTP {
     ArrayList<TransferPatient> arrTP = new ArrayList<>();
     public static final Scanner scanner= new Scanner(System.in);
     public static IP_Compare_TransP compare_transP= new IP_Compare_TransP();
+    public static IOFileID checkID = IOFileID.getInstance();
 
     public void ReadFind(int id){
         try{
@@ -57,9 +59,12 @@ public class ModifyTP {
                             System.out.print("Nhập mã hồ sơ muốn sửa: ");
                             try {
                                 MHS = Integer.parseInt(scanner.nextLine());
-                                if (MHS > 0) break;
+                                if (!checkID.ReadTrans(MHS)){
+                                    System.out.println("Đã tồn tại mã hồ sơ này!");
+                                }
+                                if (MHS > 0 && checkID.ReadTrans(MHS)) break;
                             } catch (Exception ignored) {}
-                            System.out.println("nhập sai");
+                            System.out.println("nhập lại");
                         } while (true);
 
                         tp.setMaHS(MHS);
@@ -68,16 +73,17 @@ public class ModifyTP {
                     case "2":
                         String nameTrans;
                         do {
-                            System.out.print("Sửa họ và tên: ");
+                            System.out.print("Sửa họ và tên(nhập exit để thoát): ");
                             try {
                                 nameTrans = scanner.nextLine();
+                                if(nameTrans.equals("exit")) break;
                                 if (!nameTrans.equals("")) break;
                             } catch (Exception ignored) {}
                             System.out.println("nhập sai");
                         } while (true);
 
-                        tp.setHoTen(nameTrans);
-                        System.out.println("Sửa họ và tên thành công!");
+                        if (!nameTrans.equals("exit")){tp.setHoTen(nameTrans);
+                        System.out.println("Sửa họ và tên thành công!");}
                         break;
                     case "3":
                         String birthdayTrans;

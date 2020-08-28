@@ -1,5 +1,6 @@
 package CategoryMain;
 
+import IOFile.IOFileID;
 import IOFile.IO_File_Inpatient;
 import Objects.*;
 import com.sun.xml.internal.bind.v2.model.core.ID;
@@ -19,6 +20,7 @@ public class CheckAdd {
     public static ID_Compare_IP compare_ip= new ID_Compare_IP();
     public static ID_Compare_OP compare_op= new ID_Compare_OP();
     public static IP_Compare_TransP compare_transP= new IP_Compare_TransP();
+    public static IOFileID checkID= IOFileID.getInstance();
     public void check(){
         IO_File_Inpatient readfile = IO_File_Inpatient.getInstance();
         boolean check = true;
@@ -42,9 +44,12 @@ public class CheckAdd {
                                 System.out.print("Mã hồ sơ: ");
                                 try {
                                     id =Integer.parseInt(scanner.nextLine());
-                                    if(id>0) break;
+                                    if (!checkID.ReadIn(id)){
+                                        System.out.println("đã tồn tại id này");
+                                    }
+                                    if(id>0 && checkID.ReadIn(id)) break;
                                 }catch (Exception ignored){}
-                                System.out.println("nhập sai");
+                                System.out.println("nhập lại");
                             }while (true);
 
 
@@ -142,9 +147,12 @@ public class CheckAdd {
                                 System.out.print("Mã hồ sơ: ");
                                 try {
                                     idOut = Integer.parseInt(scanner.nextLine());
-                                    if (idOut > 0) break;
+                                    if (!checkID.ReadOut(idOut)){
+                                        System.out.println("Đã tồn tại id này");
+                                    }
+                                    if (idOut > 0 && checkID.ReadOut(idOut)) break;
                                 } catch (Exception ignored) {}
-                                System.out.println("nhập sai");
+                                System.out.println("nhập lại");
                             } while (true);
 
                             String nameOut;
@@ -228,9 +236,12 @@ public class CheckAdd {
                                 System.out.print("Mã hồ sơ: ");
                                 try {
                                     idTrans = Integer.parseInt(scanner.nextLine());
-                                    if (idTrans > 0) break;
+                                    if (!checkID.ReadTrans(idTrans)){
+                                        System.out.println("đã tồn tại id này");
+                                    }
+                                    if (idTrans > 0 && checkID.ReadTrans(idTrans)) break;
                                 } catch (Exception ignored) {}
-                                System.out.println("nhập sai");
+                                System.out.println("nhập lại");
                             } while (true);
 
                             String nameTrans;

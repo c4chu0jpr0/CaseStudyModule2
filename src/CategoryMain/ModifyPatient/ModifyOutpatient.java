@@ -1,5 +1,6 @@
 package CategoryMain.ModifyPatient;
 
+import IOFile.IOFileID;
 import Objects.ID_Compare_OP;
 import Objects.IP_Compare_TransP;
 import Objects.Inpatient;
@@ -17,6 +18,7 @@ public class ModifyOutpatient {
     public static final Scanner scanner= new Scanner(System.in);
     ArrayList<Outpatient> arrOP= new ArrayList<>();
     public static ID_Compare_OP compare_op = new ID_Compare_OP();
+    public static IOFileID checkID= IOFileID.getInstance();
 
     public void ReadFind(int id){
         try{
@@ -61,9 +63,12 @@ public class ModifyOutpatient {
                             System.out.print("Nhập mã hồ sơ muốn sửa: ");
                             try {
                                 MHS = Integer.parseInt(scanner.nextLine());
-                                if (MHS > 0) break;
+                                if (!checkID.ReadOut(MHS)){
+                                    System.out.println("Đã tồn tại mã hồ sơ này!");
+                                }
+                                if (MHS > 0 && checkID.ReadOut(MHS)) break;
                             } catch (Exception ignored) {}
-                            System.out.println("nhập sai");
+                            System.out.println("nhập lại");
                         } while (true);
 
                         op.setMaHS(MHS);
@@ -72,16 +77,17 @@ public class ModifyOutpatient {
                     case "2":
                         String nameOut;
                         do {
-                            System.out.print("Sửa Họ Tên: ");
+                            System.out.print("Sửa Họ Tên (nhập exit để thoát): ");
                             try {
                                 nameOut = scanner.nextLine();
+                                if(nameOut.equals("exit")) break;
                                 if (!nameOut.equals("")) break;
                             } catch (Exception ignored) {}
                             System.out.println("nhập sai");
                         } while (true);
 
-                        op.setHoTen(nameOut);
-                        System.out.println("Sửa họ và tên thành công!");
+                        if (!nameOut.equals("exit")){ op.setHoTen(nameOut);
+                        System.out.println("Sửa họ và tên thành công!");}
                         break;
                     case "3":
                         String birthdayOut;
