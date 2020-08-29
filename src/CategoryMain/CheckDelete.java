@@ -29,41 +29,41 @@ public class CheckDelete {
                     case "1":
                         int idIP;
                         do{
-                            System.out.print("Mã hồ sơ: ");
+                            System.out.print("Mã hồ sơ (nhấn phím 0 để quay lại): ");
                             try {
                                 idIP =Integer.parseInt(scanner.nextLine());
-                                if(idIP>0) break;
+                                if(idIP>0 || idIP==0) break;
                             }catch (Exception ignored){}
                             System.out.println("nhập sai");
                         }while (true);
 
-                        ReadFind(idIP,"Inpatient");
+                        if (idIP != 0) ReadFind(idIP, "Inpatient");
                         break;
                     case "2":
                         int idOP;
                         do{
-                            System.out.print("Mã hồ sơ: ");
+                            System.out.print("Mã hồ sơ (nhấn phím 0 để quay lại): ");
                             try {
                                 idOP =Integer.parseInt(scanner.nextLine());
-                                if(idOP>0) break;
+                                if(idOP>0 || idOP==0) break;
                             }catch (Exception ignored){}
                             System.out.println("nhập sai");
                         }while (true);
 
-                        ReadFind(idOP,"Outpatient");
+                        if (idOP != 0) ReadFind(idOP, "Outpatient");
                         break;
                     case "3":
                         int idTP;
                         do{
-                            System.out.print("Mã hồ sơ: ");
+                            System.out.print("Mã hồ sơ (nhấn phím 0 để quay lại): ");
                             try {
                                 idTP =Integer.parseInt(scanner.nextLine());
-                                if(idTP>0) break;
+                                if(idTP>0 || idTP == 0) break;
                             }catch (Exception ignored){}
                             System.out.println("nhập sai");
                         }while (true);
 
-                        ReadFind(idTP,"TransferPatient");
+                        if (idTP != 0) ReadFind(idTP, "TransferPatient");
                         break;
                     case "4":
                         check = false;

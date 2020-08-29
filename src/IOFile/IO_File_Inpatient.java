@@ -67,22 +67,43 @@ public class IO_File_Inpatient {
             ObjectInputStream dis = new ObjectInputStream(fi);
 
             if ("Inpatient".equals(name)){
+                System.out.printf("%-45s %s"," ","Bệnh nhân nội tuyến");
+                System.out.println("");
+                System.out.println("---------------------------------------------------------------------------------------------------------------------------");
+                System.out.printf("%-7s %-18s %-13s %-18s %-16s %-21s %-14s %-15s","Mã HS","Họ và Tên","Ngày sinh","Ngày nhập viện","Ngày ra viện","Chuẩn đoán bệnh", "Tên Khoa", "Số Giường");
+                System.out.println("");
                 while (fi.available()>0) {
                     Inpatient obj = (Inpatient) dis.readObject();
-                    System.out.println(obj);
+                    System.out.printf("%-7s %-18s %-13s %-18s %-16s %-21s %-14s %-15s",obj.getMaHS(),obj.getHoTen(),obj.getNgaySinh(),obj.getNgayNhapVien(),obj.getNgayRaVien(),obj.getChuanDoanBenh(), obj.getTenKhoa(), obj.getSoGiuong());
+                    System.out.println("");
                 }
+                System.out.println("---------------------------------------------------------------------------------------------------------------------------");
             }
             else if ("Outpatient".equals(name)){
+                System.out.printf("%-38s %s"," ","Bệnh nhân ngoại tuyến");
+                System.out.println("");
+                System.out.println("----------------------------------------------------------------------------------------------------");
+                System.out.printf("%-7s %-18s %-12s %-12s %-20s %-13s %-9s","Mã HS","Họ và Tên","Ngày sinh","Ngày khám","Chuẩn đoán bệnh", "Sổ bảo hiểm", "Mã toa thuốc");
+                System.out.println("");
                 while (fi.available()>0) {
                     Outpatient obj = (Outpatient) dis.readObject();
-                    System.out.println(obj);
+                    System.out.printf("%-7s %-18s %-12s %-12s %-20s %-13s %-9s",obj.getMaHS(),obj.getHoTen(),obj.getNgaySinh(),obj.getNgayKham(),obj.getChuanDoanBenh(), obj.getSoBaoHiem(), obj.getMaToaThuoc());
+                    System.out.println("");
                 }
+                System.out.println("----------------------------------------------------------------------------------------------------");
             }
             else if ("TransferPatient".equals(name)){
+                System.out.printf("%-38s %s"," ","Bệnh nhân chuyển tuyến");
+                System.out.println("");
+                System.out.println("---------------------------------------------------------------------------------------------------------");
+                System.out.printf("%-7s %-17s %-13s %-20s %-13s %-9s","Mã HS","Họ và Tên","Ngày sinh","Chuẩn đoán bệnh", "Ngày chuyển", "Nơi chuyển");
+                System.out.println("");
                 while (fi.available()>0) {
                     TransferPatient obj = (TransferPatient) dis.readObject();
-                    System.out.println(obj);
+                    System.out.printf("%-7s %-17s %-13s %-20s %-13s %-9s",obj.getMaHS(),obj.getHoTen(),obj.getNgaySinh(),obj.getChuanDoanBenh(),obj.getNgayChuyen(),obj.getNoiChuyen());
+                    System.out.println("");
                 }
+                System.out.println("---------------------------------------------------------------------------------------------------------");
             }
                 dis.close();
         } catch (IOException | ClassNotFoundException e) {
